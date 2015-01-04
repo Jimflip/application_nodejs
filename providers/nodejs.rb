@@ -36,7 +36,7 @@ action :before_compile do
 
   unless new_resource.restart_command
     new_resource.restart_command do
-
+      
       service "#{service_name}_nodejs" do
         provider Chef::Provider::Service::Upstart
         supports :restart => true, :start => true, :stop => true
@@ -61,6 +61,7 @@ end
 action :before_migrate do
 
   if new_resource.npm
+    Chef::Log.info("JB path: #{new_resource.release_path} : #{new_resource.path}")
     execute 'npm install' do
       cwd new_resource.release_path
       user new_resource.owner
